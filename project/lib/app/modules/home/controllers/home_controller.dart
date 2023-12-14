@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +12,7 @@ class HomeController extends GetxController {
   var filteredEmployees = <Employee>[].obs;
   var cities = <String>['All'].obs;
   var selectedCity = 'All'.obs;
+  Rx<Color> color = Rx<Color>(Colors.blue);
 
   @override
   void onInit() {
@@ -21,7 +24,7 @@ class HomeController extends GetxController {
     fetchData();
   }
 
-  void fetchData() async {
+  Future<void> fetchData() async {
     try {
       final response = await http
           .get(Uri.parse('https://jsonplaceholder.typicode.com/users'));
@@ -30,13 +33,10 @@ class HomeController extends GetxController {
         final List<dynamic> data = json.decode(response.body);
         print(response.body);
 
-        employees.assignAll(data
-            .map((e) => Employee(
-                id: e['id'], name: e['name'], city: e['address']['city']))
-            .toList());
+        employees.assignAll(data.map((e) => Employee.fromJson(e)).toList());
         filteredEmployees.assignAll(employees);
         print("within length: ${employees.length}");
-        cities.addAll(employees.map((e) => e.city).toList());
+        cities.addAll(employees.map((e) => e.address?.city ?? '').toList());
       } else {
         print("Error: ${response.statusCode}");
       }
@@ -45,14 +45,25 @@ class HomeController extends GetxController {
     }
   }
 
+  void setAllTodefault() {
+    selectedCity.value = 'All';
+  }
+
   void filterByCity(String city) {
-    print("controlle came here right");
+    print("controller came here right");
     selectedCity.value = city;
     if (city == 'All') {
       filteredEmployees.assignAll(employees);
     } else {
       filteredEmployees
-          .assignAll(employees.where((e) => e.city == city).toList());
+          .assignAll(employees.where((e) => e.address!.city == city).toList());
+      changeSelectedColor(city);
+    }
+  }
+
+  void changeSelectedColor(String city) {
+    if (selectedCity.value == city) {
+      color.value = Colors.blue;
     }
   }
 }

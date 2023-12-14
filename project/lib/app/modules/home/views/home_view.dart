@@ -15,12 +15,19 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         title: Text('Employee Directory'),
       ),
-      body: CustomScrollView(
-        slivers: [
-          _buildAppBar(),
-          _buildCityFilter(),
-          _buildEmployeeList(),
-        ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await controller
+              .fetchData(); // Assuming you have a fetchData method in your HomeController
+          controller.setAllTodefault();
+        },
+        child: CustomScrollView(
+          slivers: [
+            _buildAppBar(),
+            _buildCityFilter(),
+            _buildEmployeeList(),
+          ],
+        ),
       ),
     );
   }
@@ -42,7 +49,7 @@ class HomeView extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           width: double.infinity,
-          height: 100,
+          height: 50,
           child: Row(
             children: [
               Text('Filter by City: '),
@@ -58,9 +65,8 @@ class HomeView extends StatelessWidget {
                       child: OutlinedButton(
                         onPressed: () => controller.filterByCity(city),
                         style: OutlinedButton.styleFrom(
-                          backgroundColor: controller.selectedCity.value == city
-                              ? Colors.blue
-                              : null, // Change the background color when selected
+                          backgroundColor: Colors.blue,
+                          side: BorderSide(color: controller.color.value),
                         ),
                         child: Text(city),
                       ),
@@ -84,12 +90,43 @@ class HomeView extends StatelessWidget {
             print("something");
             print(controller.filteredEmployees[index].name);
             final employee = controller.filteredEmployees[index];
-            return ListTile(
-              title: Text(
-                employee.name,
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      offset: Offset(0, 2), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  title: Text(employee.name ?? ''),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text('Username: ${employee.name ?? ''}'),
+                      Text('Email: ${employee.address ?? ''}'),
+                      Text('Phone: ${employee.phone ?? ''}'),
+                      Text('City: ${employee.address!.city ?? ''}'),
+                    ],
+                  ),
+                  trailing: Text(employee.website.toString()),
+                  // Add your image widget here if you have an image in your data
+                ),
               ),
-              subtitle: Text(employee.city),
-              // Add your image widget here
             );
           },
           childCount: controller.filteredEmployees.length,
