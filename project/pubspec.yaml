@@ -11,6 +11,7 @@ dependencies:
   flutter: 
     sdk: flutter
   http: ^1.1.0
+  mockito: ^5.4.3
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
