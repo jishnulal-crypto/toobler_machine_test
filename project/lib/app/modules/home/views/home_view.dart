@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 
@@ -48,30 +49,31 @@ class HomeView extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          width: double.infinity,
+          width: 50.w,
           height: 50,
           child: Row(
             children: [
               Text('Filter by City: '),
-              Obx(
-                () => ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.cities.length,
-                  itemBuilder: (context, index) {
-                    final city = controller.cities[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: OutlinedButton(
-                        onPressed: () => controller.filterByCity(city),
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          side: BorderSide(color: controller.color.value),
+              Expanded(
+                child: Obx(
+                  () => ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.cities.length,
+                    itemBuilder: (context, index) {
+                      final city = controller.cities[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: OutlinedButton(
+                          onPressed: () => controller.filterByCity(city),
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: Colors.blue),
+                          ),
+                          child: Text(city),
                         ),
-                        child: Text(city),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
