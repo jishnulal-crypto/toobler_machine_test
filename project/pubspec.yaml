@@ -2,23 +2,24 @@ name: project
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
-environment: 
+environment:
   sdk: '>=3.1.3 <4.0.0'
 
-dependencies: 
+dependencies:
   cupertino_icons: ^1.0.2
   get: 4.6.6
-  flutter: 
+  flutter:
     sdk: flutter
   http: ^1.1.0
   mockito: ^5.4.3
   flutter_screenutil: ^5.9.0
 
-dev_dependencies: 
+dev_dependencies:
   flutter_lints: ^2.0.0
-  flutter_test: 
+  flutter_test:
     sdk: flutter
 
-flutter: 
+flutter:
   uses-material-design: true
-
+  assets:
+    - assets/images/   # Add this line to include the images directory

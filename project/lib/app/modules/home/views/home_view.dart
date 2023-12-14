@@ -13,9 +13,6 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Employee Directory'),
-      ),
       body: RefreshIndicator(
         onRefresh: () async {
           await controller
@@ -39,7 +36,13 @@ class HomeView extends StatelessWidget {
       floating: false,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
-        title: Text('Employee Directory'),
+        title: Text('Employees'),
+        background: Image.asset(
+          'assets/images/moon-2762111_1280.jpg',
+          width: 400.w,
+          fit: BoxFit
+              .cover, // Set BoxFit.cover to make the image cover the entire SliverAppBar
+        ),
       ),
     );
   }
@@ -47,13 +50,12 @@ class HomeView extends StatelessWidget {
   Widget _buildCityFilter() {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(14.0),
         child: Container(
-          width: 50.w,
-          height: 50,
+          width: 30.w,
+          height: 30,
           child: Row(
             children: [
-              Text('Filter by City: '),
               Expanded(
                 child: Obx(
                   () => ListView.builder(
