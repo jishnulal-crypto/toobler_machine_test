@@ -19,8 +19,13 @@ class HomeController extends GetxController {
   var cities = <String>['All'].obs;
   var selectedCity = 'All'.obs;
   RxInt selectedCityIndex = RxInt(-1);
-  Rx<Color> color = Rx<Color>(Colors.blue);
+  Rx<Color> color = Rx<Color>(Colors.white);
   HomeProvider provider = HomeProvider();
+  var isLoading = true.obs;
+
+  void changeStatus() async {
+    isLoading.value = false;
+  }
 
   @override
   void onInit() {
@@ -38,6 +43,7 @@ class HomeController extends GetxController {
       employees.assignAll(apiReturn.data);
       filteredEmployees.assignAll(employees);
       cities.addAll(employees.map((e) => e.address?.city ?? '').toList());
+      changeStatus();
     } catch (e) {
       print("Error fetching data: $e");
     }
@@ -63,8 +69,10 @@ class HomeController extends GetxController {
     print("happened $city");
     if (selectedCity.value == city) {
       color.value = Colors.blue;
+      print(color.value);
     } else {
       color.value = Colors.white;
+      print(color.value);
     }
   }
 
