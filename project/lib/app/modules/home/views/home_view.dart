@@ -57,25 +57,32 @@ class HomeView extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: controller.cities.length,
-                    itemBuilder: (context, index) {
-                      final city = controller.cities[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: OutlinedButton(
-                          onPressed: () => controller.filterByCity(city),
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(color: Colors.blue),
+                child: GetBuilder<HomeController>(
+                  builder: (controller) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: controller.cities.length,
+                      itemBuilder: (context, index) {
+                        final city = controller.cities[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: OutlinedButton(
+                            onPressed: () =>
+                                controller.filterByCity(city, index),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor:
+                                  index == controller.selectedCityIndex.value
+                                      ? Colors.blue
+                                      : Colors.white,
+                              side: BorderSide(color: Colors.blue),
+                            ),
+                            child: Text(city),
                           ),
-                          child: Text(city),
-                        ),
-                      );
-                    },
-                  ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
             ],
@@ -86,13 +93,10 @@ class HomeView extends StatelessWidget {
   }
 
   Widget _buildEmployeeList() {
-    print("is here comtroll");
     return Obx(
       () => SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) {
-            print("something");
-            print(controller.filteredEmployees[index].name);
             final employee = controller.filteredEmployees[index];
             return Padding(
               padding: const EdgeInsets.all(8.0),
@@ -114,6 +118,9 @@ class HomeView extends StatelessWidget {
                   ],
                 ),
                 child: ListTile(
+                  onTap: () {
+                    controller.goToDetailView(employee);
+                  },
                   title: Text(employee.name ?? ''),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
