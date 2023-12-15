@@ -12,7 +12,6 @@ class HttpService {
       {Map<String, String>? headers, body}) async {
     final response =
         await http.post(Uri.parse(url), headers: headers, body: body);
-    print(" response info post ${response.body}");
     return await handleResponse(response);
   }
 
@@ -20,7 +19,6 @@ class HttpService {
       {Map<String, String>? headers, body}) async {
     final response =
         await http.put(Uri.parse(url), headers: headers, body: body);
-    print(" response info put${response.body}");
 
     return await handleResponse(response);
   }
@@ -28,7 +26,6 @@ class HttpService {
   static Future<ApiReturn> get(String url,
       {Map<String, String>? headers}) async {
     final response = await http.get(Uri.parse(url), headers: headers);
-    print(" response  info get ${response.body}");
 
     return await handleResponse(response);
   }

@@ -30,9 +30,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    ever(employees, (_) {
-      print('employees length: ${employees.length}');
-    });
+   
 
     fetchData();
   }
@@ -66,13 +64,13 @@ class HomeController extends GetxController {
   }
 
   void changeSelectedColor(String city) {
-    print("happened $city");
+  
     if (selectedCity.value == city) {
       color.value = Colors.blue;
-      print(color.value);
+    
     } else {
       color.value = Colors.white;
-      print(color.value);
+    
     }
   }
 

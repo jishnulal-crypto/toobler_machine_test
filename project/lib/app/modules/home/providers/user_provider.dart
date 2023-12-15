@@ -7,8 +7,7 @@ class HomeProvider extends GetConnect {
   Future<ApiReturn> getEmployees() async {
     String url = ApiUrls.getUsersUrl(subUrl: 'users');
     ApiReturn apiReturn = await HttpService.get(url);
-    print("result");
-    print(apiReturn.data);
+
     return apiReturn;
   }
 }
