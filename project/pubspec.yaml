@@ -13,6 +13,7 @@ dependencies:
   http: ^1.1.0
   mockito: ^5.4.3
   flutter_screenutil: ^5.9.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

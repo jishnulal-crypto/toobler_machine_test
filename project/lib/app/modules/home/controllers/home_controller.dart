@@ -3,8 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:project/app/data/api_model/api_return.dart';
+import 'package:project/app/data/network/api_urls.dart';
+import 'package:project/app/data/network/http_service.dart';
 import 'package:project/app/modules/detail/controllers/detail_controller.dart';
 import 'package:project/app/modules/detail/views/detail_view.dart';
+import 'package:project/app/modules/home/providers/user_provider.dart';
 import 'dart:convert';
 
 import '../../../models/employee_model.dart';
@@ -16,6 +20,7 @@ class HomeController extends GetxController {
   var selectedCity = 'All'.obs;
   RxInt selectedCityIndex = RxInt(-1);
   Rx<Color> color = Rx<Color>(Colors.blue);
+  HomeProvider provider = HomeProvider();
 
   @override
   void onInit() {
@@ -29,22 +34,12 @@ class HomeController extends GetxController {
 
   Future<void> fetchData() async {
     try {
-      final response = await http
-          .get(Uri.parse('https://jsonplaceholder.typicode.com/users'));
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        print(response.body);
-
-        employees.assignAll(data.map((e) => Employee.fromJson(e)).toList());
-        filteredEmployees.assignAll(employees);
-        print("within length: ${employees.length}");
-        cities.addAll(employees.map((e) => e.address?.city ?? '').toList());
-      } else {
-        print("Error: ${response.statusCode}");
-      }
-    } catch (error) {
-      print("Error fetching data: $error");
+      final apiReturn = await provider.getEmployees();
+      employees.assignAll(apiReturn.data);
+      filteredEmployees.assignAll(employees);
+      cities.addAll(employees.map((e) => e.address?.city ?? '').toList());
+    } catch (e) {
+      print("Error fetching data: $e");
     }
   }
 

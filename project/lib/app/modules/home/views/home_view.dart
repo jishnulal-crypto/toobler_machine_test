@@ -57,32 +57,29 @@ class HomeView extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: GetBuilder<HomeController>(
-                  builder: (controller) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.cities.length,
-                      itemBuilder: (context, index) {
-                        final city = controller.cities[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: OutlinedButton(
-                            onPressed: () =>
-                                controller.filterByCity(city, index),
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor:
-                                  index == controller.selectedCityIndex.value
-                                      ? Colors.blue
-                                      : Colors.white,
-                              side: BorderSide(color: Colors.blue),
-                            ),
-                            child: Text(city),
+                child: Obx(
+                  () => ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.cities.length,
+                    itemBuilder: (context, index) {
+                      final city = controller.cities[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: OutlinedButton(
+                          onPressed: () => controller.filterByCity(city, index),
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor:
+                                index == controller.selectedCityIndex.value
+                                    ? Colors.blue
+                                    : Colors.white,
+                            side: BorderSide(color: Colors.blue),
                           ),
-                        );
-                      },
-                    );
-                  },
+                          child: Text(city),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
