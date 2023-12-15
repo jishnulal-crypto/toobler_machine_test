@@ -42,8 +42,7 @@ class HomeView extends StatelessWidget {
         background: Image.asset(
           'assets/images/moon-2762111_1280.jpg',
           width: 400.w,
-          fit: BoxFit
-              .cover, // Set BoxFit.cover to make the image cover the entire SliverAppBar
+          fit: BoxFit.cover,
         ),
       ),
     );

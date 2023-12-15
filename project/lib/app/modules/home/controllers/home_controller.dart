@@ -30,8 +30,6 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-   
-
     fetchData();
   }
 
@@ -64,13 +62,10 @@ class HomeController extends GetxController {
   }
 
   void changeSelectedColor(String city) {
-  
     if (selectedCity.value == city) {
       color.value = Colors.blue;
-    
     } else {
       color.value = Colors.white;
-    
     }
   }
 
