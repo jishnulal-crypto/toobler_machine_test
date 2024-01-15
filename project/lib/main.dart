@@ -9,6 +9,7 @@ import 'app/routes/app_pages.dart';
 
 void main() async {
   ApiUrls.setEnvironment(development: true);
+  print("console");
   runApp(MyApp());
 }
 
